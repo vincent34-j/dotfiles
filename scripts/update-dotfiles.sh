@@ -2,6 +2,12 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+source "$SCRIPT_DIR/lib/common.sh"
+
+info "Updating repository..."
+
 git pull --ff-only
 
-echo "Repository updated."
+success "Repository updated."

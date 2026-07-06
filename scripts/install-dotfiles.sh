@@ -2,14 +2,14 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Installing Creator Workstation dotfiles..."
-echo
+source "$SCRIPT_DIR/lib/common.sh"
 
-echo "[1/3] Git configuration"
-echo "[2/3] Zsh configuration"
-echo "[3/3] VS Code configuration"
+info "Installing Creator Workstation dotfiles..."
 
-echo
-echo "Installation completed."
+info "[1/3] Git configuration"
+info "[2/3] Zsh configuration"
+info "[3/3] VS Code configuration"
+
+success "Installation completed."
