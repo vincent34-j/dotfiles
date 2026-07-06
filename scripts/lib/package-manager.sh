@@ -74,3 +74,33 @@ install_packages() {
 install_package() {
     install_packages "$@"
 }
+
+cleanup_package_cache() {
+    local manager
+
+    manager="$(detect_package_manager)"
+
+    case "${manager}" in
+        apt)
+            info "Cleaning package cache (${manager})"
+
+            sudo apt autoremove -y
+            sudo apt autoclean -y
+
+            success "Package cache cleaned."
+            ;;
+
+        pacman)
+            info "Package cache cleanup is not implemented for pacman yet."
+            ;;
+
+        dnf)
+            info "Package cache cleanup is not implemented for dnf yet."
+            ;;
+
+        *)
+            error "Unsupported package manager: ${manager}"
+            return 1
+            ;;
+    esac
+}
