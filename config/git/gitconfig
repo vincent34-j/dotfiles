@@ -1,0 +1,33 @@
+[init]
+	defaultBranch = main
+[color]
+	ui = auto
+[credential]
+	helper = store
+[user]
+	name = Vincent
+	email = vincent@email.com
+[pull]
+	rebase = false
+[core]
+	editor = code --wait
+	excludesfile = /home/vincent/.gitignore_global
+[status]
+	branch = true
+	short = true
+[fetch]
+	prune = true
+[push]
+	autoSetupRemote = true
+	default = simple
+[alias]
+	st = status -sb
+	co = checkout
+	sw = switch
+	br = branch
+	ci = commit
+	df = diff
+	lg = log --oneline --graph --decorate --all
+	last = log -1 HEAD
+	unstage = restore --staged
+	type = cat-file -t
