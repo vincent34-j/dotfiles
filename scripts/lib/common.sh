@@ -97,3 +97,25 @@ create_symlink() {
 
     success "Linked: $target -> $source"
 }
+
+install_file() {
+    local source="$1"
+    local target="$2"
+
+    if [[ ! -e "$source" ]]; then
+        error "Source not found: $source"
+        return 1
+    fi
+
+    if [[ -L "$target" ]]; then
+        local current
+        current="$(readlink "$target")"
+
+        if [[ "$current" == "$source" ]]; then
+            info "Already installed: $target"
+            return 0
+        fi
+    fi
+
+    create_symlink "$source" "$target"
+}
