@@ -12,36 +12,17 @@ info "Installing Creator Workstation dotfiles..."
 echo
 
 info "[1/3] Git"
-
-install_file \
-    "$ROOT_DIR/config/git/.gitconfig" \
-    "$HOME/.gitconfig"
-
-install_file \
-    "$ROOT_DIR/config/git/.gitignore_global" \
-    "$HOME/.gitignore_global"
+install_manifest "$ROOT_DIR/manifest/git.manifest"
 
 echo
 
 info "[2/3] Zsh"
-
-install_file \
-    "$ROOT_DIR/config/zsh/.zshrc" \
-    "$HOME/.zshrc"
-
-install_file \
-    "$ROOT_DIR/config/zsh/.p10k.zsh" \
-    "$HOME/.p10k.zsh"
+install_manifest "$ROOT_DIR/manifest/zsh.manifest"
 
 echo
 
 info "[3/3] VS Code"
-
-ensure_directory "$HOME/.config/Code/User"
-
-install_file \
-    "$ROOT_DIR/config/vscode/settings.json" \
-    "$HOME/.config/Code/User/settings.json"
+install_manifest "$ROOT_DIR/manifest/vscode.manifest"
 
 echo
 

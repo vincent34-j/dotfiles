@@ -119,3 +119,27 @@ install_file() {
 
     create_symlink "$source" "$target"
 }
+
+install_manifest() {
+    local manifest="$1"
+
+    if [[ ! -f "$manifest" ]]; then
+        error "Manifest not found: $manifest"
+        return 1
+    fi
+
+    info "Installing manifest: $(basename "$manifest")"
+
+    while IFS='|' read -r source target
+    do
+        [[ -z "$source" ]] && continue
+        [[ "$source" =~ ^# ]] && continue
+
+        target="${target/#\~/$HOME}"
+
+        install_file \
+            "$ROOT_DIR/$source" \
+            "$target"
+
+    done < "$manifest"
+}
