@@ -65,7 +65,8 @@ backup_file() {
     local file="$1"
 
     if [[ -f "$file" || -L "$file" ]]; then
-        local backup="${file}.bak.$(date +%Y%m%d-%H%M%S)"
+        local backup
+        backup="${file}.bak.$(date +%Y%m%d-%H%M%S)"
         cp -a --preserve=all "$file" "$backup"
         success "Backup created: $backup"
     fi
