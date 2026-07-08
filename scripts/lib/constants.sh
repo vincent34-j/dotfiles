@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
 readonly CLI_NAME="Creator Workstation CLI"
-readonly CLI_VERSION="0.1.0"
+
+CONSTANTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${CONSTANTS_DIR}/../.." && pwd)"
+
+readonly CLI_VERSION="$(<"${PROJECT_ROOT}/VERSION")"
