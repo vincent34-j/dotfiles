@@ -27,6 +27,7 @@ load_plugin() {
     [[ -f "$plugin_file" ]] || return 1
 
     source "$plugin_file"
+    validate_plugin || return 1
 }
 
 get_plugin_name() {
@@ -41,3 +42,12 @@ get_plugin_description() {
     printf '%s\n' "$PLUGIN_DESCRIPTION"
 }
 
+validate_plugin() {
+    [[ -n "${PLUGIN_NAME:-}" ]] || return 1
+    [[ -n "${PLUGIN_VERSION:-}" ]] || return 1
+    [[ -n "${PLUGIN_DESCRIPTION:-}" ]] || return 1
+
+    declare -F plugin_install >/dev/null || return 1
+
+    return 0
+}
