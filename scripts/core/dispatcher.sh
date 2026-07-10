@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
-source "$(dirname "${BASH_SOURCE[0]}")/registry.sh"
-
-dispatch_plugin() {
+dispatch_plugin_install() {
     local plugin_name="$1"
 
-    if registry_has_plugin "$plugin_name"; then
-        printf "Plugin '%s' found\n" "$plugin_name"
-        return 0
+    if ! registry_has_plugin "${plugin_name}"; then
+        printf "Plugin '%s' not found\n" "${plugin_name}"
+        return 1
     fi
 
-    printf "Plugin '%s' not found\n" "$plugin_name"
-    return 1
+    local plugin_file
+    plugin_file="$(registry_get_path "${plugin_name}")"
+
+    load_plugin "${plugin_file}"
+
+    plugin_install
 }
