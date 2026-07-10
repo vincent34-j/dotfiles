@@ -29,24 +29,10 @@ load_plugin() {
     source "$plugin_file"
     validate_plugin || return 1
 }
-
-get_plugin_name() {
-    printf '%s\n' "$PLUGIN_NAME"
-}
-
-get_plugin_version() {
-    printf '%s\n' "$PLUGIN_VERSION"
-}
-
-get_plugin_description() {
-    printf '%s\n' "$PLUGIN_DESCRIPTION"
-}
-
 validate_plugin() {
-    [[ -n "${PLUGIN_NAME:-}" ]] || return 1
-    [[ -n "${PLUGIN_VERSION:-}" ]] || return 1
-    [[ -n "${PLUGIN_DESCRIPTION:-}" ]] || return 1
-
+    declare -F plugin_get_name >/dev/null || return 1
+    declare -F plugin_get_version >/dev/null || return 1
+    declare -F plugin_get_description >/dev/null || return 1
     declare -F plugin_install >/dev/null || return 1
 
     return 0
