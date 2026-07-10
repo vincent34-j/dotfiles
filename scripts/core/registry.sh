@@ -1,33 +1,37 @@
 #!/usr/bin/env bash
 
-command_exists() {
+declare -A PLUGIN_PATHS=()
+declare -A PLUGIN_VERSIONS=()
+declare -A PLUGIN_DESCRIPTIONS=()
 
-    declare -F "$1" >/dev/null
+registry_register_plugin() {
+    local name="$1"
+    local path="$2"
+    local version="$3"
+    local description="$4"
 
+    PLUGIN_PATHS["$name"]="$path"
+    PLUGIN_VERSIONS["$name"]="$version"
+    PLUGIN_DESCRIPTIONS["$name"]="$description"
 }
 
-list_commands() {
-
-    cat <<EOF
-doctor
-info
-status
-cleanup
-update
-backup
-provision
-install
-config
-version
-help
-EOF
-
+registry_get_path() {
+    local name="$1"
+    printf '%s\n' "${PLUGIN_PATHS[$name]}"
 }
 
-is_valid_command() {
+registry_get_version() {
+    local name="$1"
+    printf '%s\n' "${PLUGIN_VERSIONS[$name]}"
+}
 
-    local cmd="$1"
+registry_get_description() {
+    local name="$1"
+    printf '%s\n' "${PLUGIN_DESCRIPTIONS[$name]}"
+}
 
-    list_commands | grep -qx "${cmd}"
+registry_has_plugin() {
+    local name="$1"
 
+    [[ -n "${PLUGIN_PATHS[$name]:-}" ]]
 }

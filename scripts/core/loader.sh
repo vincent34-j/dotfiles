@@ -34,3 +34,4 @@ get_plugin_version() {
 get_plugin_description() {
     printf '%s\n' "$PLUGIN_DESCRIPTION"
 }
+
