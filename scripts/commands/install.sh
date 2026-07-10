@@ -6,7 +6,11 @@ source "${SCRIPT_DIR}/core/loader.sh"
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/core/registry.sh"
 
+# shellcheck source=/dev/null
+source "${SCRIPT_DIR}/core/dispatcher.sh"
+
 run_install() {
+    local target="${1:-}"
     local plugin_dir
     local plugin_file
 
@@ -27,4 +31,10 @@ run_install() {
 
         printf "Loaded plugin: %s\n" "$(get_plugin_name)"
     done < <(discover_plugin_directories)
+
+    if [[ -z "${target}" ]]; then
+        return 0
+    fi
+
+    dispatch_plugin_install "${target}"
 }

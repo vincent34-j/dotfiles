@@ -49,7 +49,7 @@ dispatch_command() {
             ;;
 
         install)
-            run_install
+            run_install "${2:-}"
             ;;
 
         config)
