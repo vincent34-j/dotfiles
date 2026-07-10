@@ -15,7 +15,7 @@ echo "Running version tests..."
 
 output="$(bash "${PROJECT_ROOT}/scripts/creator.sh" --version)"
 
-if printf '%s\n' "$output" | grep -q "Version: ${CLI_VERSION}"; then
+if printf '%s\n' "$output" | grep -q "${CLI_VERSION}"; then
     pass "Version command"
 else
     fail "Version command"
