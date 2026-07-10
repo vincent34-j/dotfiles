@@ -1,17 +1,23 @@
 #!/usr/bin/env bash
 
 discover_plugin_directories() {
-    local plugin_root="plugins"
+    local script_dir
+    script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-    if [[ ! -d "$plugin_root" ]]; then
+    local project_root
+    project_root="$(cd "${script_dir}/../.." && pwd)"
+
+    local plugin_root="${project_root}/plugins"
+
+    if [[ ! -d "${plugin_root}" ]]; then
         return 0
     fi
 
     local dir
 
-    for dir in "$plugin_root"/*; do
-        [[ -d "$dir" ]] || continue
-        printf '%s\n' "$dir"
+    for dir in "${plugin_root}"/*; do
+        [[ -d "${dir}" ]] || continue
+        printf '%s\n' "${dir}"
     done
 }
 
