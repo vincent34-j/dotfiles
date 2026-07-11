@@ -13,6 +13,7 @@ source "${SCRIPT_DIR}/commands/provision.sh"
 source "${SCRIPT_DIR}/commands/install.sh"
 source "${SCRIPT_DIR}/commands/config.sh"
 source "${SCRIPT_DIR}/commands/doctor.sh"
+source "${SCRIPT_DIR}/commands/new-plugin.sh"
 
 dispatch_command() {
     local command="${1:-help}"
@@ -57,6 +58,10 @@ dispatch_command() {
 
         config)
             run_config
+            ;;
+
+        new-plugin)
+            run_new_plugin "${target}"
             ;;
 
         version|-v|--version)
