@@ -6,6 +6,9 @@ source "${SCRIPT_DIR}/core/loader.sh"
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/core/registry.sh"
 
+# shellcheck source=/dev/null
+source "${SCRIPT_DIR}/core/dispatcher.sh"
+
 initialize_plugin() {
     local plugin_file="$1"
 
@@ -29,4 +32,15 @@ initialize_plugin_engine() {
 
         initialize_plugin "${plugin_file}"
     done < <(discover_plugin_directories)
+}
+
+run_plugin_command() {
+    local lifecycle="$1"
+    local plugin="$2"
+
+    initialize_plugin_engine
+
+    dispatch_plugin_lifecycle \
+        "${plugin}" \
+        "${lifecycle}"
 }

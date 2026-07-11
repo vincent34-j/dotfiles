@@ -15,17 +15,20 @@ source "${SCRIPT_DIR}/commands/config.sh"
 source "${SCRIPT_DIR}/commands/doctor.sh"
 
 dispatch_command() {
-    case "${1:-help}" in
+    local command="${1:-help}"
+    local target="${2:-}"
+
+    case "${command}" in
         help|-h|--help)
             show_help
             ;;
 
         doctor)
-            run_doctor
+            run_doctor "${target}"
             ;;
 
         info)
-            show_info
+            show_info "${target}"
             ;;
 
         status)
@@ -37,7 +40,7 @@ dispatch_command() {
             ;;
 
         update)
-            run_update
+            run_update "${target}"
             ;;
 
         backup)
@@ -49,7 +52,7 @@ dispatch_command() {
             ;;
 
         install)
-            run_install "${2:-}"
+            run_install "${target}"
             ;;
 
         config)
@@ -61,10 +64,9 @@ dispatch_command() {
             ;;
 
         *)
-            echo "Unknown command: ${1}"
-            echo
+            printf "Unknown command: %s\n\n" "${command}"
             show_help
-            exit 1
+            return 1
             ;;
     esac
 }

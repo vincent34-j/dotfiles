@@ -9,9 +9,7 @@ source "${SCRIPT_DIR}/core/dispatcher.sh"
 run_install() {
     local target="${1:-}"
 
-    initialize_plugin_engine
-
     [[ -z "${target}" ]] && return 0
 
-    dispatch_plugin_lifecycle "${target}" install
+    run_plugin_command install "${target}"
 }
