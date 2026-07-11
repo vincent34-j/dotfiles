@@ -1,0 +1,11 @@
+NAME="docker"
+VERSION="1.0.0"
+DESCRIPTION="Docker Development Environment"
+
+DEPENDENCIES=(
+    git
+)
+
+AUTHOR="Vincent"
+
+LICENSE="MIT"

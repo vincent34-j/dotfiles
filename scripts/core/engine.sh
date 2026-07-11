@@ -14,14 +14,11 @@ source "${SCRIPT_DIR}/core/dispatcher.sh"
 
 initialize_plugin() {
     local plugin_file="$1"
-    local dependencies=""
+    local dependencies
 
     load_plugin "${plugin_file}"
 
-    if [[ -v DEPENDENCIES ]]; then
-        dependencies="${DEPENDENCIES[*]}"
-    fi
-
+    dependencies="${DEPENDENCIES[*]}"
     registry_register_plugin \
         "${NAME}" \
         "${plugin_file}" \

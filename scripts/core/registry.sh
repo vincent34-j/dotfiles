@@ -3,16 +3,19 @@
 declare -A PLUGIN_PATHS=()
 declare -A PLUGIN_VERSIONS=()
 declare -A PLUGIN_DESCRIPTIONS=()
+declare -A PLUGIN_DEPENDENCIES=()
 
 registry_register_plugin() {
     local name="$1"
     local path="$2"
     local version="$3"
     local description="$4"
+    local dependencies="${5:-}"
 
     PLUGIN_PATHS["$name"]="$path"
     PLUGIN_VERSIONS["$name"]="$version"
     PLUGIN_DESCRIPTIONS["$name"]="$description"
+    PLUGIN_DEPENDENCIES["$name"]="$dependencies"
 }
 
 registry_get_path() {
@@ -28,6 +31,11 @@ registry_get_version() {
 registry_get_description() {
     local name="$1"
     printf '%s\n' "${PLUGIN_DESCRIPTIONS[$name]}"
+}
+
+registry_get_dependencies() {
+    local name="$1"
+    printf '%s\n' "${PLUGIN_DEPENDENCIES[$name]}"
 }
 
 registry_has_plugin() {

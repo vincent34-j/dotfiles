@@ -1,35 +1,23 @@
 #!/usr/bin/env bash
 
-plugin_get_name() {
-    printf "docker\n"
-}
-
-plugin_get_version() {
-    printf "1.0.0\n"
-}
-
-plugin_get_description() {
-    printf "Docker Development Environment\n"
-}
-
 plugin_install() {
-    printf "Installing %s...\n" "$(plugin_get_name)"
+    printf "Installing %s...\n" "${NAME}"
 }
 
 plugin_update() {
-    printf "Updating %s...\n" "$(plugin_get_name)"
+    printf "Updating %s...\n" "${NAME}"
 }
 
 plugin_remove() {
-    printf "Removing %s...\n" "$(plugin_get_name)"
+    printf "Removing %s...\n" "${NAME}"
 }
 
 plugin_doctor() {
-    printf "Checking %s...\n" "$(plugin_get_name)"
+    printf "Checking %s...\n" "${NAME}"
 }
 
 plugin_info() {
-    printf "Plugin: %s\n" "$(plugin_get_name)"
-    printf "Version: %s\n" "$(plugin_get_version)"
-    printf "Description: %s\n" "$(plugin_get_description)"
+    printf "Plugin: %s\n" "${NAME}"
+    printf "Version: %s\n" "${VERSION}"
+    printf "Description: %s\n" "${DESCRIPTION}"
 }
