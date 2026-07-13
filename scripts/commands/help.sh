@@ -24,6 +24,7 @@ Commands:
     repos          List configured repositories
     repo-info      Show repository metadata
     repo-add       Add a repository
+    repo-remove    Remove a repository
     version        Show CLI version
     help           Show this help message
 EOF

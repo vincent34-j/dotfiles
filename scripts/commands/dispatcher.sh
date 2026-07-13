@@ -20,6 +20,7 @@ source "${SCRIPT_DIR}/commands/plugin-search.sh"
 source "${SCRIPT_DIR}/commands/repos.sh"
 source "${SCRIPT_DIR}/commands/repo-info.sh"
 source "${SCRIPT_DIR}/commands/repo-add.sh"
+source "${SCRIPT_DIR}/commands/repo-remove.sh"
 
 dispatch_command() {
     local command="${1:-help}"
@@ -92,6 +93,10 @@ dispatch_command() {
 
         repo-add)
             run_repo_add "${2:-}" "${3:-}"
+            ;;
+
+        repo-remove)
+            run_repo_remove "${2:-}"
             ;;
 
         version|-v|--version)
