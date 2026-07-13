@@ -25,6 +25,8 @@ Commands:
     repo-info      Show repository metadata
     repo-add       Add a repository
     repo-remove    Remove a repository
+    repo-enable    Enable a repository
+    repo-disable   Disable a repository
     version        Show CLI version
     help           Show this help message
 EOF

@@ -21,6 +21,8 @@ source "${SCRIPT_DIR}/commands/repos.sh"
 source "${SCRIPT_DIR}/commands/repo-info.sh"
 source "${SCRIPT_DIR}/commands/repo-add.sh"
 source "${SCRIPT_DIR}/commands/repo-remove.sh"
+source "${SCRIPT_DIR}/commands/repo-enable.sh"
+source "${SCRIPT_DIR}/commands/repo-disable.sh"
 
 dispatch_command() {
     local command="${1:-help}"
@@ -97,6 +99,14 @@ dispatch_command() {
 
         repo-remove)
             run_repo_remove "${2:-}"
+            ;;
+
+        repo-enable)
+            run_repo_enable "${2:-}"
+            ;;
+
+        repo-disable)
+            run_repo_disable "${2:-}"
             ;;
 
         version|-v|--version)
