@@ -18,6 +18,12 @@ registry_register_plugin() {
     PLUGIN_DEPENDENCIES["$name"]="$dependencies"
 }
 
+registry_has_plugin() {
+    local name="$1"
+
+    [[ -v PLUGIN_PATHS["$name"] ]]
+}
+
 registry_get_path() {
     local name="$1"
     printf '%s\n' "${PLUGIN_PATHS[$name]}"
@@ -38,8 +44,14 @@ registry_get_dependencies() {
     printf '%s\n' "${PLUGIN_DEPENDENCIES[$name]}"
 }
 
-registry_has_plugin() {
-    local name="$1"
+registry_list_plugins() {
+    local plugin
 
-    [[ -n "${PLUGIN_PATHS[$name]:-}" ]]
+    for plugin in "${!PLUGIN_PATHS[@]}"; do
+        printf '%s\n' "${plugin}"
+    done | sort
+}
+
+registry_plugin_count() {
+    printf '%s\n' "${#PLUGIN_PATHS[@]}"
 }
