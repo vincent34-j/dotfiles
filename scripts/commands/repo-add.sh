@@ -29,16 +29,21 @@ run_repo_add() {
     fi
 
     local description
+    local branch
 
-    description="$(tr '[:lower:]' '[:upper:]' <<< "${name:0:1}")${name:1} Repository"
+    description="${name^} Repository"
+
+    branch="$(repository_default_branch "$url")"
+    branch="${branch:-main}"
 
     repository_manifest_write \
-                "${name}" \
-                "${description}" \
-                "${url}" \
-                 main \
-                 50 \
-                 true
+        "$name" \
+        "$description" \
+        "$url" \
+        "$branch" \
+        50 \
+        true
 
-    echo "Repository added: ${name}"
+    printf "Repository added: %s\n" "$name"
 }
+

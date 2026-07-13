@@ -27,6 +27,7 @@ Commands:
     repo-remove    Remove a repository
     repo-enable    Enable a repository
     repo-disable   Disable a repository
+    repo-update    Update a repository
     version        Show CLI version
     help           Show this help message
 EOF
