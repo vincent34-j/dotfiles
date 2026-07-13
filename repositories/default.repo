@@ -1,0 +1,11 @@
+NAME="default"
+
+DESCRIPTION="Official Creator Plugin Repository"
+
+URL="https://github.com/vincent34-j/creator-plugins"
+
+BRANCH="main"
+
+PRIORITY=100
+
+ENABLED=true

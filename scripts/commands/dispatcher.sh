@@ -16,6 +16,10 @@ source "${SCRIPT_DIR}/commands/doctor.sh"
 source "${SCRIPT_DIR}/commands/new-plugin.sh"
 source "${SCRIPT_DIR}/commands/plugins.sh"
 source "${SCRIPT_DIR}/commands/plugin-info.sh"
+source "${SCRIPT_DIR}/commands/plugin-search.sh"
+source "${SCRIPT_DIR}/commands/repos.sh"
+source "${SCRIPT_DIR}/commands/repo-info.sh"
+source "${SCRIPT_DIR}/commands/repo-add.sh"
 
 dispatch_command() {
     local command="${1:-help}"
@@ -72,6 +76,22 @@ dispatch_command() {
 
         plugin-info)
             run_plugin_info "${target}"
+            ;;
+
+        plugin-search)
+            run_plugin_search "${target}"
+            ;;
+
+        repos)
+            run_repos
+            ;;
+
+        repo-info)
+            run_repo_info "${target}"
+            ;;
+
+        repo-add)
+            run_repo_add "${2:-}" "${3:-}"
             ;;
 
         version|-v|--version)

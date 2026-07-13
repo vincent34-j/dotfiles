@@ -27,4 +27,4 @@ source "${SCRIPT_DIR}/commands/info.sh"
 # shellcheck source=/dev/null
 source "${SCRIPT_DIR}/commands/dispatcher.sh"
 
-dispatch_command "${1:-help}" "${2:-}"
+dispatch_command "$@"
