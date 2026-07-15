@@ -24,6 +24,7 @@ source "${SCRIPT_DIR}/commands/repo-remove.sh"
 source "${SCRIPT_DIR}/commands/repo-enable.sh"
 source "${SCRIPT_DIR}/commands/repo-disable.sh"
 source "${SCRIPT_DIR}/commands/repo-update.sh"
+source "${SCRIPT_DIR}/commands/sync.sh"
 
 dispatch_command() {
     local command="${1:-help}"
@@ -112,6 +113,10 @@ dispatch_command() {
 
         repo-update)
             run_repo_update "${2:-}"
+            ;;
+
+        sync)
+            run_sync
             ;;
 
         version|-v|--version)

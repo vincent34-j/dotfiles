@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/dev/null
-source "${SCRIPT_DIR}/core/engine.sh"
+# shellcheck disable=SC1091
+
+source "${SCRIPT_DIR}/index/runtime.sh"
+source "${SCRIPT_DIR}/index/database.sh"
+source "${SCRIPT_DIR}/index/query.sh"
 
 run_plugins() {
-    initialize_plugin_engine
 
     printf "%-15s %-10s %s\n" \
         "NAME" \
@@ -16,12 +18,23 @@ run_plugins() {
         "----------" \
         "------------------------------"
 
-    local plugin
+    local record
 
-    while IFS= read -r plugin; do
+    while IFS= read -r record; do
+
+        IFS='|' read -r \
+            plugin \
+            version \
+            repository \
+            description \
+            dependencies <<< "$record"
+
         printf "%-15s %-10s %s\n" \
-            "${plugin}" \
-            "$(registry_get_version "${plugin}")" \
-            "$(registry_get_description "${plugin}")"
-    done < <(registry_list_plugins)
+            "$plugin" \
+            "$version" \
+            "$description"
+
+    done < <(
+        index_query_all
+    )
 }

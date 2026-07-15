@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/dev/null
-source "${SCRIPT_DIR}/core/engine.sh"
+# shellcheck disable=SC1091
+
+source "${SCRIPT_DIR}/index/runtime.sh"
+source "${SCRIPT_DIR}/index/database.sh"
+source "${SCRIPT_DIR}/index/query.sh"
 
 run_plugin_search() {
     local keyword="${1:-}"
@@ -12,22 +15,31 @@ run_plugin_search() {
         return 1
     fi
 
-    initialize_plugin_engine
-
     local found=0
-    local plugin
-    local description
+    local record
 
-    while IFS= read -r plugin; do
-        description="$(registry_get_description "${plugin}")"
+    while IFS= read -r record; do
 
-        if [[ "${plugin}" == *"${keyword}"* ]] || \
+        IFS='|' read -r \
+            plugin \
+            version \
+            repository \
+            description \
+            dependencies <<< "$record"
+
+        if [[ "${plugin,,}" == *"${keyword,,}"* ]] || \
            [[ "${description,,}" == *"${keyword,,}"* ]]; then
 
-            printf "%-15s %s\n" "${plugin}" "${description}"
+            printf "%-15s %s\n" \
+                "${plugin}" \
+                "${description}"
+
             found=1
         fi
-    done < <(registry_list_plugins)
+
+    done < <(
+        index_query_all
+    )
 
     if [[ "${found}" -eq 0 ]]; then
         echo "No plugins found."

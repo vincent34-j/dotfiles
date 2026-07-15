@@ -14,3 +14,7 @@
 # Windows
 Thumbs.db
 Desktop.ini
+
+# Creator Workstation Runtime
+cache/
+

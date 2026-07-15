@@ -12,6 +12,10 @@ update_single_repository() {
     # shellcheck disable=SC1090
     source "$file"
 
+    if [[ "${ENABLED}" != "true" ]]; then
+    return 0
+    fi
+
     repository_cache_create "$NAME"
 
     if ! repository_is_cloned "$NAME"; then

@@ -18,7 +18,14 @@ repository_git_dir() {
 repository_is_cloned() {
     local repo="$1"
 
-    [[ -d "$(repository_git_dir "$repo")" ]]
+    local gitdir
+    gitdir="$(repository_git_dir "$repo")"
+
+    [[ -d "$gitdir" ]] || return 1
+
+    git \
+        --git-dir="$gitdir" \
+        rev-parse --git-dir >/dev/null 2>&1
 }
 
 repository_revision() {
@@ -46,6 +53,8 @@ repository_clone() {
     fi
 
     mkdir -p "$(dirname "$worktree")"
+
+    rm -rf "$worktree"
 
     git clone \
         --depth 1 \

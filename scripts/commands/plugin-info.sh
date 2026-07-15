@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/dev/null
-source "${SCRIPT_DIR}/core/engine.sh"
+# shellcheck disable=SC1091
+
+source "${SCRIPT_DIR}/index/runtime.sh"
+source "${SCRIPT_DIR}/index/database.sh"
+source "${SCRIPT_DIR}/index/query.sh"
 
 run_plugin_info() {
     local plugin="${1:-}"
@@ -12,20 +15,19 @@ run_plugin_info() {
         return 1
     fi
 
-    initialize_plugin_engine
-
-    if ! registry_has_plugin "${plugin}"; then
+    if ! index_query_exists "${plugin}"; then
         echo "Plugin not found: ${plugin}"
         return 1
     fi
 
-    local deps
-    deps="$(registry_get_dependencies "${plugin}")"
+    local dependencies
+    dependencies="$(index_query_dependencies "${plugin}")"
 
-    [[ -z "${deps}" ]] && deps="-"
+    [[ -z "${dependencies}" ]] && dependencies="-"
 
     printf "Plugin       : %s\n" "${plugin}"
-    printf "Version      : %s\n" "$(registry_get_version "${plugin}")"
-    printf "Description  : %s\n" "$(registry_get_description "${plugin}")"
-    printf "Dependencies : %s\n" "${deps}"
+    printf "Version      : %s\n" "$(index_query_version "${plugin}")"
+    printf "Description  : %s\n" "$(index_query_description "${plugin}")"
+    printf "Repository   : %s\n" "$(index_query_repository "${plugin}")"
+    printf "Dependencies : %s\n" "${dependencies}"
 }

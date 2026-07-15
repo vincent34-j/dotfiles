@@ -1,0 +1,11 @@
+NAME="demo"
+
+DESCRIPTION="Demo Repository"
+
+URL="https://github.com/octocat/Hello-World.git"
+
+BRANCH="master"
+
+PRIORITY=50
+
+ENABLED=true

@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
-# shellcheck source=/dev/null
-source "${SCRIPT_DIR}/core/engine.sh"
+# shellcheck disable=SC1091
 
-# shellcheck source=/dev/null
-source "${SCRIPT_DIR}/core/dispatcher.sh"
+source "${SCRIPT_DIR}/install/run.sh"
 
 run_install() {
+
     local target="${1:-}"
 
-    [[ -z "${target}" ]] && return 0
+    if [[ -z "$target" ]]; then
+        echo "Usage:"
+        echo "    creator install <plugin>"
+        return 1
+    fi
 
-    run_plugin_command install "${target}"
+    install_run "$target"
 }
