@@ -5,6 +5,7 @@
 source "${SCRIPT_DIR}/plugin/runtime.sh"
 
 plugin_manifest_load() {
+
     local root="$1"
 
     local manifest
@@ -14,11 +15,21 @@ plugin_manifest_load() {
         return 1
     fi
 
+    unset \
+        NAME VERSION DESCRIPTION DEPENDENCIES \
+        PLUGIN_NAME PLUGIN_VERSION PLUGIN_DESCRIPTION PLUGIN_DEPENDENCIES
+
     # shellcheck disable=SC1090
     source "$manifest"
+
+    PLUGIN_NAME="${NAME:-}"
+    PLUGIN_VERSION="${VERSION:-}"
+    PLUGIN_DESCRIPTION="${DESCRIPTION:-}"
+    PLUGIN_DEPENDENCIES="${DEPENDENCIES:-}"
 }
 
 plugin_manifest_is_valid() {
+
     local root="$1"
 
     plugin_manifest_exists "$root"

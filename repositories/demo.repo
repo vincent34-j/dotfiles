@@ -2,9 +2,9 @@ NAME="demo"
 
 DESCRIPTION="Demo Repository"
 
-URL="https://github.com/octocat/Hello-World.git"
+URL="https://github.com/vincent34-j/creator-demo-repository.git"
 
-BRANCH="master"
+BRANCH="main"
 
 PRIORITY=50
 
