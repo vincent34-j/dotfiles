@@ -10,6 +10,9 @@ source "${SCRIPT_DIR}/core/registry.sh"
 source "${SCRIPT_DIR}/core/resolver.sh"
 
 # shellcheck source=/dev/null
+source "${SCRIPT_DIR}/core/lifecycle.sh"
+
+# shellcheck source=/dev/null
 source "${SCRIPT_DIR}/core/dispatcher.sh"
 
 initialize_plugin() {
@@ -19,6 +22,7 @@ initialize_plugin() {
     load_plugin "${plugin_file}"
 
     dependencies="${DEPENDENCIES[*]-}"
+
     registry_register_plugin \
         "${NAME}" \
         "${plugin_file}" \
@@ -32,11 +36,13 @@ initialize_plugin_engine() {
     local plugin_file
 
     while IFS= read -r plugin_dir; do
+
         plugin_file="${plugin_dir}/plugin.sh"
 
         [[ -f "${plugin_file}" ]] || continue
 
         initialize_plugin "${plugin_file}"
+
     done < <(discover_plugin_directories)
 }
 
@@ -45,9 +51,13 @@ install_resolved_plugins() {
     local plugin
 
     while IFS= read -r plugin; do
+
         [[ -z "${plugin}" ]] && continue
 
-        dispatch_plugin_lifecycle "${plugin}" "${lifecycle}"
+        dispatch_plugin_lifecycle \
+            "${plugin}" \
+            "${lifecycle}"
+
     done
 }
 

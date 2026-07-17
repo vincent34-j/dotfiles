@@ -23,5 +23,9 @@ dispatch_plugin_lifecycle() {
         return 1
     fi
 
+    run_hook "pre_${lifecycle}"
+
     "${function_name}"
+
+    run_hook "post_${lifecycle}"
 }
