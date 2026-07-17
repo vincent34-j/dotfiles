@@ -10,7 +10,7 @@ discover_plugin_directories() {
     local plugin_root="${project_root}/plugins"
 
     if [[ ! -d "${plugin_root}" ]]; then
-        return 0
+    return 0
     fi
 
     local dir
@@ -50,31 +50,59 @@ load_plugin_manifest() {
     # shellcheck source=/dev/null
     source "${manifest}"
 }
+readonly REQUIRED_PLUGIN_VARIABLES=(
+    NAME
+    VERSION
+    DESCRIPTION
+)
+
+readonly REQUIRED_PLUGIN_FUNCTIONS=(
+    plugin_install
+)
+validate_required_variable() {
+
+    local variable="$1"
+
+    [[ -n "${!variable:-}" ]] || {
+        printf "Plugin validation failed: %s is missing.\n" "${variable}"
+    return 1
+    }
+
+}
+validate_required_function() {
+
+    local function_name="$1"
+
+    declare -F "${function_name}" >/dev/null || {
+        printf "Plugin validation failed: %s() is missing.\n" "${function_name}"
+    return 1
+    }
+
+}
+validate_required_array() {
+
+    local array_name="$1"
+
+    declare -p "${array_name}" >/dev/null 2>&1 || {
+        printf "Plugin validation failed: %s must be an array.\n" "${array_name}"
+    return 1
+    }
+
+}
 validate_plugin() {
-    [[ -n "${NAME:-}" ]] || {
-        echo "Plugin validation failed: NAME is missing."
-        return 1
-    }
 
-    [[ -n "${VERSION:-}" ]] || {
-        echo "Plugin validation failed: VERSION is missing."
-        return 1
-    }
+    local variable
+    local function_name
 
-    [[ -n "${DESCRIPTION:-}" ]] || {
-        echo "Plugin validation failed: DESCRIPTION is missing."
-        return 1
-    }
+    for variable in "${REQUIRED_PLUGIN_VARIABLES[@]}"; do
+        validate_required_variable "${variable}" || return 1
+    done
 
-    declare -p DEPENDENCIES >/dev/null 2>&1 || {
-        echo "Plugin validation failed: DEPENDENCIES must be an array."
-        return 1
-    }
+    validate_required_array DEPENDENCIES || return 1
 
-    declare -F plugin_install >/dev/null || {
-        echo "Plugin validation failed: plugin_install() is missing."
-        return 1
-    }
+    for function_name in "${REQUIRED_PLUGIN_FUNCTIONS[@]}"; do
+        validate_required_function "${function_name}" || return 1
+    done
 
     return 0
 }
