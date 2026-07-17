@@ -25,7 +25,7 @@ assert_true() {
     local condition="$1"
     local message="$2"
 
-    if [[ "${condition}" == "true" ]]; then
+    if eval "${condition}"; then
         pass "${message}"
         return 0
     fi
@@ -39,7 +39,7 @@ assert_false() {
     local condition="$1"
     local message="$2"
 
-    if [[ "${condition}" == "false" ]]; then
+    if ! eval "${condition}"; then
         pass "${message}"
         return 0
     fi

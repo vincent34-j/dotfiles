@@ -4,6 +4,12 @@
 # Creator Workstation Environment
 #
 
+if [[ -n "${CREATOR_ENVIRONMENT_LOADED:-}" ]]; then
+    return 0
+fi
+
+readonly CREATOR_ENVIRONMENT_LOADED=1
+
 # -----------------------------------------------------------------------------
 # Sources
 # -----------------------------------------------------------------------------

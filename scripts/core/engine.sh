@@ -18,7 +18,7 @@ initialize_plugin() {
 
     load_plugin "${plugin_file}"
 
-    dependencies="${DEPENDENCIES[*]}"
+    dependencies="${DEPENDENCIES[*]-}"
     registry_register_plugin \
         "${NAME}" \
         "${plugin_file}" \

@@ -4,6 +4,12 @@
 # Creator Workstation State Engine
 #
 
+if [[ -n "${CREATOR_STATE_LOADED:-}" ]]; then
+    return 0
+fi
+
+readonly CREATOR_STATE_LOADED=1
+
 # -----------------------------------------------------------------------------
 # Sources
 # -----------------------------------------------------------------------------

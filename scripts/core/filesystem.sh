@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
+if [[ -n "${CREATOR_FILESYSTEM_LOADED:-}" ]]; then
+    return 0
+fi
+
+readonly CREATOR_FILESYSTEM_LOADED=1
+
+CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly CURRENT_DIR
+
 # shellcheck source=/dev/null
-source "${SCRIPT_DIR}/core/common.sh"
+source "${CURRENT_DIR}/common.sh"
 
 directory_exists() {
 
