@@ -9,12 +9,29 @@ readonly CREATOR_CONFIG_LOADED=1
 CONFIG_DIR="${PROJECT_ROOT}/creator"
 readonly CONFIG_DIR
 
+USER_CONFIG_DIR="${HOME}/.config/creator"
+readonly USER_CONFIG_DIR
+
 config_file() {
     local plugin="$1"
 
     printf "%s/%s.conf\n" \
         "${CONFIG_DIR}" \
         "${plugin}"
+}
+
+user_config_file() {
+    local plugin="$1"
+
+    printf "%s/%s.conf\n" \
+        "${USER_CONFIG_DIR}" \
+        "${plugin}"
+}
+
+user_config_exists() {
+    local plugin="$1"
+
+    [[ -f "$(user_config_file "${plugin}")" ]]
 }
 
 config_exists() {
@@ -34,28 +51,39 @@ config_get() {
     local key="$2"
     local default="${3:-}"
 
-    local file
-    file="$(config_file "${plugin}")"
-
-    if [[ ! -f "${file}" ]]; then
-        printf '%s\n' "${default}"
-        return
-    fi
-
     local value
 
-    value="$(
-        awk -F= -v search="${key}" '
-            $1 == search {
-                print $2
-                exit
-            }
-        ' "${file}"
-    )"
+    if user_config_exists "${plugin}"; then
+        value="$(
+            awk -F= -v search="${key}" '
+                $1 == search {
+                    print $2
+                    exit
+                }
+            ' "$(user_config_file "${plugin}")"
+        )"
 
-    if [[ -n "${value}" ]]; then
-        printf '%s\n' "${value}"
-    else
-        printf '%s\n' "${default}"
+        if [[ -n "${value}" ]]; then
+            printf '%s\n' "${value}"
+            return
+        fi
     fi
+
+    if config_exists "${plugin}"; then
+        value="$(
+            awk -F= -v search="${key}" '
+                $1 == search {
+                    print $2
+                    exit
+                }
+            ' "$(config_file "${plugin}")"
+        )"
+
+        if [[ -n "${value}" ]]; then
+            printf '%s\n' "${value}"
+            return
+        fi
+    fi
+
+    printf '%s\n' "${default}"
 }

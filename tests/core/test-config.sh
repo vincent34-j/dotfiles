@@ -9,6 +9,8 @@ source "${PROJECT_ROOT}/scripts/core/config.sh"
 
 source "${PROJECT_ROOT}/tests/lib/assert.sh"
 
+rm -f "${HOME}/.config/creator/docker.conf"
+
 assert_equals \
     "${PROJECT_ROOT}/creator/docker.conf" \
     "$(config_file docker)" \
@@ -43,3 +45,16 @@ assert_equals \
     "1.0.0" \
     "$(config_get imaginary VERSION 1.0.0)" \
     "Config default file"
+
+mkdir -p "${HOME}/.config/creator"
+
+cat > "${HOME}/.config/creator/docker.conf" <<EOF
+CHANNEL=edge
+EOF
+
+assert_equals \
+    "edge" \
+    "$(config_get docker CHANNEL stable)" \
+    "User override"
+
+rm -f "${HOME}/.config/creator/docker.conf"
