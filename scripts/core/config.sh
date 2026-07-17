@@ -32,16 +32,30 @@ config_load() {
 config_get() {
     local plugin="$1"
     local key="$2"
+    local default="${3:-}"
 
     local file
     file="$(config_file "${plugin}")"
 
-    [[ -f "${file}" ]] || return 1
+    if [[ ! -f "${file}" ]]; then
+        printf '%s\n' "${default}"
+        return
+    fi
 
-    awk -F= -v search="${key}" '
-        $1 == search {
-            print $2
-            exit
-        }
-    ' "${file}"
+    local value
+
+    value="$(
+        awk -F= -v search="${key}" '
+            $1 == search {
+                print $2
+                exit
+            }
+        ' "${file}"
+    )"
+
+    if [[ -n "${value}" ]]; then
+        printf '%s\n' "${value}"
+    else
+        printf '%s\n' "${default}"
+    fi
 }

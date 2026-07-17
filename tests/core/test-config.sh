@@ -33,3 +33,13 @@ assert_equals \
     "stable" \
     "$(config_get docker CHANNEL)" \
     "Config CHANNEL"
+
+assert_equals \
+    "hello" \
+    "$(config_get docker UNKNOWN hello)" \
+    "Config default key"
+
+assert_equals \
+    "1.0.0" \
+    "$(config_get imaginary VERSION 1.0.0)" \
+    "Config default file"
