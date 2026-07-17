@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+if [[ -n "${CREATOR_LOADER_LOADED:-}" ]]; then
+    return 0
+fi
+
+readonly CREATOR_LOADER_LOADED=1
+
 discover_plugin_directories() {
     local script_dir
     script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
